@@ -17,7 +17,7 @@ import {
 import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import logo from '../images/logo3.png';
+import logo from '../images/logo5.png';
 
 const Navbar = () => {
   const theme = useTheme();
@@ -259,12 +259,16 @@ const Navbar = () => {
           <Box 
             component={Link} 
             to="/home" 
+            className="logo-link"
             sx={{ 
               textDecoration: 'none', 
               color: 'inherit',
               display: 'flex',
               alignItems: 'center',
-              gap: 2
+              gap: 1,
+              outline: 'none',
+              boxShadow: 'none',
+              pointer: 'cursor',
             }}
           >
             <Box>
@@ -276,7 +280,10 @@ const Navbar = () => {
                 height: 90,
                 width: 'auto',
                 marginRight: 12,
+                marginTop: 4,
                 display: 'block',
+                outline: 'none',  
+                boxShadow: 'none',
               }}
             />
             </Box>

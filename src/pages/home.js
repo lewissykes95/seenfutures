@@ -176,7 +176,7 @@ const Home = () => {
                   background: 'linear-gradient(45deg, #6B73FF, #FF6B9D)',
                   borderRadius: '50%',
                   zIndex: -1,
-                  animation: 'pulse 3s ease-in-out infinite',
+                  animation: 'pulse 2s ease-in-out infinite',
                 }
               }}
               elevation={0}
@@ -197,9 +197,8 @@ const Home = () => {
             <Card
               sx={{
                 position: 'absolute',
-                bottom: { xs: -30, md: -50 },
-                right: { xs: '40%', md: '20%' },
-                transform: 'translate(-50%, -50%)',
+                bottom: { xs: -30, md: -20 },
+                right: { xs: '40%', md: '30%' },
                 zIndex: 2,
                 maxWidth: 220,
                 background: 'rgba(255, 255, 255, 0.95)',
@@ -232,7 +231,7 @@ const Home = () => {
           variant="h3" 
           align="center" 
           gutterBottom
-          sx={{ mb: 6, fontWeight: 600 }}
+          sx={{ mb: 6, fontWeight: 600, marginTop: 6 }}
         >
           Why Choose Our Approach?
         </Typography>
