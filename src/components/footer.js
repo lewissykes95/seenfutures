@@ -150,7 +150,6 @@ const Footer = () => (
       </Grid>
 
       <Divider sx={{ my: 4 }} />
-
       <Box 
         sx={{ 
           display: 'flex',
