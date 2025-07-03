@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import { 
   AppBar, 
   Toolbar, 
@@ -181,28 +180,6 @@ const Navbar = () => {
         <ListItem disablePadding>
           <Button
             component={Link}
-            to="/blog"
-            fullWidth
-            sx={{ 
-              justifyContent: 'center',
-              py: 2,
-              mx: 2,
-              mb: 1,
-              fontSize: '1.1rem',
-              color: 'text.primary',
-              borderRadius: 2,
-              '&:hover': {
-                bgcolor: 'primary.main',
-                color: 'white',
-              }
-            }}
-          >
-            Blog
-          </Button>
-        </ListItem>
-        <ListItem disablePadding>
-          <Button
-            component={Link}
             to="/contact"
             fullWidth
             sx={{ 
@@ -334,21 +311,6 @@ const Navbar = () => {
               </Button>
               <Button
                 component={Link}
-                to="/blog"
-                sx={{ 
-                  mx: 1,
-                  color: 'text.primary',
-                  fontWeight: 500,
-                  '&:hover': {
-                    color: 'primary.main',
-                    bgcolor: 'transparent',
-                  }
-                }}
-              >
-                Blog
-              </Button>
-              <Button
-                component={Link}
                 to="/contact"
                 sx={{ 
                   mx: 1,
@@ -386,7 +348,7 @@ const Navbar = () => {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
+          keepMounted: true,
         }}
         sx={{
           display: { xs: 'block', md: 'none' },

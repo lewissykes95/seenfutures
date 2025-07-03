@@ -10,7 +10,6 @@ Seen Futures is a modern web application providing compassionate, evidence-based
 - **Comprehensive Information:** About autism, services, approach, and FAQs
 - **Contact & Consultation:** Easy-to-use contact form (powered by EmailJS)
 - **Accessibility:** Responsive, accessible design for all users
-- **Blog & Resources:** Insights and tips for families (coming soon)
 
 ## Main Pages
 - Home
@@ -20,7 +19,6 @@ Seen Futures is a modern web application providing compassionate, evidence-based
 - Services
 - Contact
 - FAQ
-- Blog
 - Privacy Policy, Terms, Accessibility
 
 ## Tech Stack

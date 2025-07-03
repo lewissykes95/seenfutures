@@ -11,8 +11,6 @@ import {
   Avatar,
   Chip,
   Stack,
-  useTheme,
-  useMediaQuery
 } from '@mui/material';
 import { 
   Psychology, 
@@ -26,8 +24,6 @@ import emilyPhoto from '../images/IMG_5465.jpg';
 import logo from '../images/logo3.png';
 
 const Home = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const features = [
     {
@@ -63,7 +59,6 @@ const Home = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 1, md: 2 }, px: { xs: 1, sm: 1, md: 2 } }}>
-      {/* Hero Section */}
       <Grid container spacing={8} alignItems="center">
         <Grid size={12} md={6}>
           <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
@@ -193,7 +188,6 @@ const Home = () => {
               />
             </Paper>
             
-            {/* Floating testimonial */}
             <Card
               sx={{
                 position: 'absolute',
@@ -225,7 +219,6 @@ const Home = () => {
         </Grid>
       </Grid>
 
-      {/* Features Section */}
       <Box sx={{ mb: 8 }}>
         <Typography 
           variant="h3" 
@@ -270,7 +263,6 @@ const Home = () => {
         </Grid>
       </Box>
 
-      {/* Benefits Section */}
       <Grid container spacing={6} alignItems="center" sx={{ mb: 8 }}>
         <Grid size={12} md={6}>
           <Typography 

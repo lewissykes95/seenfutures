@@ -6,7 +6,6 @@ import Home from './pages/home';
 import Contact from './pages/contact';
 import About from './pages/about';
 import Services from './pages/services';
-import Blog from './pages/blog';
 import Faq from './pages/faq';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
@@ -35,7 +34,6 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/faq" element={<Faq />} />
-            <Route path="/blog" element={<Blog />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/accessibility" element={<Accessibility />} />

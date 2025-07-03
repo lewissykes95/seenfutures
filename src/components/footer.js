@@ -1,4 +1,3 @@
-// src/components/Footer.jsx
 import { 
   Box, 
   Typography, 
@@ -76,7 +75,7 @@ const Footer = () => (
             Quick Links
           </Typography>
           <Stack spacing={1}>
-            {['About', 'Services', 'FAQ', 'Blog', 'Contact'].map((page) => (
+            {['About', 'Services', 'FAQ', 'Contact'].map((page) => (
               <Link
                 key={page}
                 href={`/${page.toLowerCase()}`}

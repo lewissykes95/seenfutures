@@ -29,8 +29,6 @@ import {
 
 const Services = () => {
 
-  const isMobile = window.innerWidth < 400;
-
   const services = [
     {
       icon: <Person />,
@@ -149,7 +147,6 @@ const Services = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 }, px: { xs: 2, sm: 3, md: 4 } }}>
-      {/* Header Section */}
       <Box sx={{ textAlign: 'center', mb: 8 }}>
         <Chip 
           label="Evidence-Based Services" 
@@ -176,10 +173,8 @@ const Services = () => {
         </Typography>
       </Box>
 
-      {/* Services Grid */}
       <Grid container spacing={3} justifyContent={'center'} margin={4}>
         {services.map((service, index) => {
-          // Map service titles to ids for anchor links
           const idMap = {
             'Individual Therapy': 'individual-therapy',
             'Group Programs': 'group-programs',
@@ -200,7 +195,8 @@ const Services = () => {
                   '&:hover': {
                     transform: 'translateY(-8px)',
                     boxShadow: '0px 12px 40px rgba(107, 115, 255, 0.15)',
-                  }
+                  },
+                  margin: 2,
                 }}
               >
                 <CardContent sx={{ p: 0 }}>
@@ -314,7 +310,6 @@ const Services = () => {
         </Grid>
       </Paper>
 
-      {/* CTA Section */}
       <Card
         sx={{
           p: 6,
