@@ -1,10 +1,9 @@
 import React from 'react';
-import { Container, Typography, Paper, Box, Card, CardContent, Stack, Avatar, useTheme } from '@mui/material';
+import { Container, Typography, Box, Card, CardContent, Stack, Avatar } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PrivacyTipIcon from '@mui/icons-material/PrivacyTip';
 
 const PrivacyPolicy = () => {
-  const theme = useTheme();
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 }, px: { xs: 2, sm: 3, md: 4 } }}>
       <Box sx={{ textAlign: 'center', mb: 6 }}>

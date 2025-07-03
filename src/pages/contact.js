@@ -36,8 +36,7 @@ import {
   AccessTime
 } from '@mui/icons-material';
 
-const Contact = () => {
-  // Form state
+function Contact() {
   const [formData, setFormData] = useState({
     parentName: '',
     phone: '',
@@ -53,13 +52,12 @@ const Contact = () => {
   const [showError, setShowError] = useState(false);
   const [formErrors, setFormErrors] = useState({});
 
-  // Handle input changes
   const handleInputChange = (field) => (event) => {
     setFormData(prev => ({
       ...prev,
       [field]: event.target.value
     }));
-    // Clear error when user starts typing
+
     if (formErrors[field]) {
       setFormErrors(prev => ({
         ...prev,
@@ -68,7 +66,6 @@ const Contact = () => {
     }
   };
 
-  // Form validation
   const validateForm = () => {
     const errors = {};
     
@@ -92,7 +89,6 @@ const Contact = () => {
     return Object.keys(errors).length === 0;
   };
 
-  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     
@@ -103,19 +99,14 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
-      // Initialize EmailJS using environment variables
       const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
       const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
       const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
-
-      console.log('EmailJS Config:', { serviceId, templateId, publicKey });
       
-      // Check if EmailJS is properly configured
       if (!serviceId || !templateId || !publicKey) {
         throw new Error('EmailJS not properly configured. Please check your environment variables.');
       }
       
-      // Prepare email parameters
       const templateParams = {
         from_name: formData.parentName,
         from_email: formData.email,
@@ -128,14 +119,9 @@ const Contact = () => {
         email: formData.email
       };
 
-      console.log('Sending email with params:', templateParams);
-
-      // Send email using EmailJS
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
-      
-      console.log('Email sent successfully!');
-      
-      // Reset form and show success message
+
+
       setFormData({
         parentName: '',
         phone: '',
@@ -159,7 +145,7 @@ const Contact = () => {
     {
       icon: <Phone />,
       title: "Phone",
-      value: "(555) 123-4567",
+      value: "07494717856",
       description: "Call for immediate assistance",
       color: "primary"
     },
@@ -214,7 +200,6 @@ const Contact = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 } }}>
-      {/* Header Section */}
       <Box sx={{ textAlign: 'center', mb: 8 }}>
         <Chip 
           label="Let's Start Your Journey" 
@@ -241,7 +226,6 @@ const Contact = () => {
       </Box>
 
       <Grid container spacing={6}>
-        {/* Contact Form */}
         <Grid item xs={12} lg={7}>
           <Card sx={{ p: { xs: 3, md: 4 }, height: 'fit-content' }}>
             <Typography variant="h4" gutterBottom sx={{ fontWeight: 600, mb: 4 }}>
@@ -364,10 +348,8 @@ const Contact = () => {
           </Card>
         </Grid>
 
-        {/* Contact Info & Benefits */}
         <Grid size={12}>
           <Stack spacing={4}>
-            {/* Contact Methods */}
             <Paper sx={{ p: { xs: 3, md: 4 } }}>
               <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, mb: 3 }}>
                 Contact Information
@@ -401,7 +383,6 @@ const Contact = () => {
               </Stack>
             </Paper>
 
-            {/* What You Get */}
             <Card
               sx={{
                 p: { xs: 3, md: 4 },
@@ -430,7 +411,6 @@ const Contact = () => {
               </List>
             </Card>
 
-            {/* Why Choose Us */}
             <Paper sx={{ p: 4 }}>
               <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, mb: 3 }}>
                 Why Families Choose Us
@@ -460,43 +440,10 @@ const Contact = () => {
                 ))}
               </Stack>
             </Paper>
-
-            {/* Emergency Contact */}
-            <Card
-              sx={{
-                p: 3,
-                background: 'linear-gradient(135deg, #6495ED 0%, #BFD7FF 100%)',
-                color: 'white',
-                textAlign: 'center'
-              }}
-            >
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-                Need Immediate Support?
-              </Typography>
-              <Typography variant="body2" paragraph sx={{ opacity: 0.9, mb: 2 }}>
-                For urgent behavioral concerns or crisis situations
-              </Typography>
-              <Button
-                variant="contained"
-                color="inherit"
-                startIcon={<Phone />}
-                sx={{
-                  bgcolor: 'white',
-                  color: 'primary.main',
-                  '&:hover': {
-                    bgcolor: 'rgba(255, 255, 255, 0.9)',
-                  },
-                  fontWeight: 600
-                }}
-              >
-                Call Emergency Line
-              </Button>
-            </Card>
           </Stack>
         </Grid>
       </Grid>
 
-      {/* Success Message */}
       <Snackbar
         open={showSuccess}
         autoHideDuration={6000}
@@ -512,7 +459,6 @@ const Contact = () => {
         </Alert>
       </Snackbar>
 
-      {/* Error Message */}
       <Snackbar
         open={showError}
         autoHideDuration={6000}

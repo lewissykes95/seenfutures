@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import { 
   AppBar, 
   Toolbar, 
@@ -386,7 +385,7 @@ const Navbar = () => {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
+          keepMounted: true,
         }}
         sx={{
           display: { xs: 'block', md: 'none' },

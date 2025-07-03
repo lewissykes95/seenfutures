@@ -66,7 +66,6 @@ const About = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 }, px: { xs: 2, sm: 3, md: 4 } }}>
-      {/* Hero Section */}
       <Grid container spacing={6} alignItems="center" sx={{ mb: 8 }}>
         <Grid size={12} md={4} sx={{ textAlign: 'center' }}>
           <Box sx={{ textAlign: 'center' }}>
@@ -131,7 +130,6 @@ const About = () => {
         </Grid>
       </Grid>
 
-      {/* Credentials Section */}
       <Paper 
         sx={{ 
           p: 4, 
@@ -157,7 +155,6 @@ const About = () => {
         </Grid>
       </Paper>
 
-      {/* Specialties Section */}
       <Box sx={{ mb: 8 }}>
         <Typography variant="h4" gutterBottom sx={{ fontWeight: 600, mb: 6, textAlign: 'center' }}>
           Areas of Expertise
@@ -190,8 +187,7 @@ const About = () => {
           ))}
         </Grid>
       </Box>
-
-      {/* Values Section */}
+      
       <Grid container spacing={6} alignItems="center">
         <Grid size={6} md={6}>
           <Typography variant="h4" gutterBottom sx={{ fontWeight: 600, mb: 4 }}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Typography, Card, CardContent, Box, Stack, Avatar, useTheme } from '@mui/material';
+import { Container, Typography, Card, CardContent, Box, Stack, Avatar } from '@mui/material';
 import GavelIcon from '@mui/icons-material/Gavel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
