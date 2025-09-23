@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/seenfutures/static/css/main.fc23363e.css",
-    "main.js": "/seenfutures/static/js/main.6efa3255.js",
+    "main.js": "/seenfutures/static/js/main.214b801f.js",
     "static/js/453.542f1234.chunk.js": "/seenfutures/static/js/453.542f1234.chunk.js",
     "static/media/IMG_5465.jpg": "/seenfutures/static/media/IMG_5465.3c59059478cd22761759.jpg",
     "static/media/logo3.png": "/seenfutures/static/media/logo3.837048ae850a81b2d13b.png",
     "static/media/logo5.png": "/seenfutures/static/media/logo5.1de7ac7fe5949b55d61f.png",
     "index.html": "/seenfutures/index.html",
     "main.fc23363e.css.map": "/seenfutures/static/css/main.fc23363e.css.map",
-    "main.6efa3255.js.map": "/seenfutures/static/js/main.6efa3255.js.map",
+    "main.214b801f.js.map": "/seenfutures/static/js/main.214b801f.js.map",
     "453.542f1234.chunk.js.map": "/seenfutures/static/js/453.542f1234.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.fc23363e.css",
-    "static/js/main.6efa3255.js"
+    "static/js/main.214b801f.js"
   ]
 }
