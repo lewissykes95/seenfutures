@@ -1,6 +1,6 @@
 // src/App.jsx
 import { Box, ThemeProvider, CssBaseline } from '@mui/material';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import theme from './theme';
 import Home from './pages/home';
 import Contact from './pages/contact';
@@ -14,29 +14,78 @@ import OurApproach from './pages/our-approach';
 import PrivacyPolicy from './pages/privacy';
 import Terms from './pages/terms';
 import Accessibility from './pages/accessibility';
+import ScrollToTop from './components/ScrollToTop';
+
+const PageWrapper = ({ children }) => {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+  
+  return (
+    <Box sx={{ pt: isHome ? 0 : { xs: 12, md: 14 } }}>
+      {children}
+    </Box>
+  );
+};
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
+        <ScrollToTop />
         <Navbar />
-        <Box component="main" sx={{ 
-          minHeight: '80vh', 
-          pt: { xs: 12, md: 14 },
-          pb: 4
-        }}>
+        <Box component="main" sx={{ minHeight: '80vh', pb: 4 }}>
           <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/what-is-autism" element={<WhatIsAutism />} />
-            <Route path="/our-approach" element={<OurApproach />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/faq" element={<Faq />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/accessibility" element={<Accessibility />} />
+            <Route path="/" element={
+              <PageWrapper>
+                <Home />
+              </PageWrapper>
+            } />
+            <Route path="/about" element={
+              <PageWrapper>
+                <About />
+              </PageWrapper>
+            } />
+            <Route path="/what-is-autism" element={
+              <PageWrapper>
+                <WhatIsAutism />
+              </PageWrapper>
+            } />
+            <Route path="/our-approach" element={
+              <PageWrapper>
+                <OurApproach />
+              </PageWrapper>
+            } />
+            <Route path="/services" element={
+              <PageWrapper>
+                <Services />
+              </PageWrapper>
+            } />
+            <Route path="/contact" element={
+              <PageWrapper>
+                <Contact />
+              </PageWrapper>
+            } />
+            <Route path="/faq" element={
+              <PageWrapper>
+                <Faq />
+              </PageWrapper>
+            } />
+            <Route path="/privacy" element={
+              <PageWrapper>
+                <PrivacyPolicy />
+              </PageWrapper>
+            } />
+            <Route path="/terms" element={
+              <PageWrapper>
+                <Terms />
+              </PageWrapper>
+            } />
+            <Route path="/accessibility" element={
+              <PageWrapper>
+                <Accessibility />
+              </PageWrapper>
+            } />
           </Routes>
         </Box>
         <Footer />

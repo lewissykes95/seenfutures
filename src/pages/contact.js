@@ -1,5 +1,5 @@
 // src/pages/Contact.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import { 
   Box, 
@@ -10,13 +10,6 @@ import {
   Grid,
   Card,
   Stack,
-  Chip,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Paper,
-  Avatar,
   FormControl,
   InputLabel,
   Select,
@@ -24,17 +17,6 @@ import {
   Alert,
   Snackbar
 } from '@mui/material';
-import { 
-  Phone, 
-  Email, 
-  LocationOn,
-  Schedule,
-  CheckCircle,
-  Send,
-  AutoAwesome,
-  Psychology,
-  AccessTime
-} from '@mui/icons-material';
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -50,7 +32,13 @@ function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [formErrors, setFormErrors] = useState({});
+
+  useEffect(() => {
+    // Initialize EmailJS
+    emailjs.init(process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
+  }, []);
 
   const handleInputChange = (field) => (event) => {
     setFormData(prev => ({
@@ -91,358 +79,201 @@ function Contact() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     setIsSubmitting(true);
-    
+
     try {
-      const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-      const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+      const serviceId = 'service_bh92rw9';
+      const contactTemplateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID_CONTACT;
+      const autoReplyTemplateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID_AUTOREPLY;
       const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
-      
-      if (!serviceId || !templateId || !publicKey) {
-        throw new Error('EmailJS not properly configured. Please check your environment variables.');
-      }
-      
+
       const templateParams = {
-        from_name: formData.parentName,
-        from_email: formData.email,
+        parent_name: formData.parentName,
+        email: formData.email,
         phone: formData.phone,
         child_name: formData.childName,
         child_age: formData.childAge,
         hear_about: formData.hearAbout,
         message: formData.message,
+        to: 'seenfutures.edinburgh@gmail.com',
+        to_email: 'seenfutures.edinburgh@gmail.com',
+        name: formData.parentName,
+        to_name: "Seen Futures Team",
         reply_to: formData.email,
-        email: formData.email
+        recipient: 'seenfutures.edinburgh@gmail.com'
       };
 
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+
+      try {
+        await emailjs.send(serviceId, contactTemplateId, templateParams, publicKey);
+
+        // Send auto-reply to THEM
+        const autoReplyParams = {
+            name: formData.parentName,
+            to_name: formData.parentName,
+            child_name: formData.childName,
+            email: formData.email,
+            from_email: "seenfutures.edinburgh@gmail.com",
+            from_name: "Seen Futures Team",
+            reply_to: "seenfutures.edinburgh@gmail.com",
+          };
 
 
-      setFormData({
-        parentName: '',
-        phone: '',
-        email: '',
-        childName: '',
-        childAge: '',
-        hearAbout: '',
-        message: ''
-      });
-      
-      setShowSuccess(true);
+        await emailjs.send(serviceId, autoReplyTemplateId, autoReplyParams, publicKey);
+
+        // Reset form only if both emails were sent successfully
+        setFormData({
+          parentName: '',
+          phone: '',
+          email: '',
+          childName: '',
+          childAge: '',
+          hearAbout: '',
+          message: ''
+        });
+
+        setShowSuccess(true);
+      } catch (emailError) {
+        console.error('Detailed EmailJS Error:', emailError);
+        throw new Error(emailError.text || 'Failed to send email. Please check your EmailJS configuration.');
+      }
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error('Error details:', error);
+      setErrorMessage(error.message);
       setShowError(true);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const contactMethods = [
-    {
-      icon: <Phone />,
-      title: "Phone",
-      value: "07494717856",
-      description: "Call for immediate assistance",
-      color: "primary"
-    },
-    {
-      icon: <Email />,
-      title: "Email",
-      value: "seenfutures.edinburgh@gmail.com",
-      description: "Send us a detailed message",
-      color: "secondary"
-    },
-    {
-      icon: <LocationOn />,
-      title: "Office",
-      value: "Edinburgh and the Lothians, Scotland",
-      description: "Serving families across Edinburgh and the Lothians",
-      color: "success"
-    },
-    {
-      icon: <Schedule />,
-      title: "Hours",
-      value: "Mon-Fri: 8AM-6PM, Sat: 9AM-3PM",
-      description: "We're here when you need us",
-      color: "info"
-    }
-  ];
-
-  const benefits = [
-    "Free 30-minute initial consultation",
-    "Personalized therapy recommendations",
-    "Flexible scheduling options",
-    "Insurance verification assistance",
-    "Family-centered approach"
-  ];
-
-  const reasons = [
-    {
-      icon: <AutoAwesome />,
-      title: "Quick Response",
-      description: "We respond to all inquiries within 24 hours"
-    },
-    {
-      icon: <Psychology />,
-      title: "Expert Guidance",
-      description: "Get professional advice from day one"
-    },
-    {
-      icon: <AccessTime />,
-      title: "Flexible Scheduling",
-      description: "Sessions that fit your family's lifestyle"
-    }
-  ];
 
   return (
-    <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 } }}>
-      <Box sx={{ textAlign: 'center', mb: 8 }}>
-        <Chip 
-          label="Let's Start Your Journey" 
-          color="primary" 
-          sx={{ mb: 3, fontSize: '0.875rem', fontWeight: 600 }}
-        />
-        <Typography 
-          variant="h2" 
-          gutterBottom
-          sx={{ 
-            fontWeight: 700,
-            mb: 3,
-            background: 'linear-gradient(135deg, #6495ED 0%, #BFD7FF 100%)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}
-        >
-          Get In Touch
-        </Typography>
-        <Typography variant="h5" color="text.secondary" sx={{ maxWidth: '600px', mx: 'auto', mb: 4 }}>
-          Ready to take the first step? We're here to support you and your family every step of the way.
-        </Typography>
-      </Box>
+    <Box sx={{ 
+      minHeight: '100vh',
+      py: { xs: 4, md: 8 },
+      px: { xs: 2, sm: 3, md: 4 }
+    }}>
+      <Container maxWidth="md">
+        <Box sx={{ textAlign: 'center', mb: 6 }}>
+          <Typography variant="h2" gutterBottom sx={{ fontWeight: 700 }}>
+            Contact Us
+          </Typography>
+          <Typography variant="h5" color="text.secondary">
+            We'll contact you as soon as possible to discuss how we can help
+          </Typography>
+        </Box>
 
-      <Grid container spacing={6}>
-        <Grid item xs={12} lg={7}>
-          <Card sx={{ p: { xs: 3, md: 4 }, height: 'fit-content' }}>
-            <Typography variant="h4" gutterBottom sx={{ fontWeight: 600, mb: 4 }}>
-              Schedule Your Free Consultation
-            </Typography>
-            
-            <Box component="form" onSubmit={handleSubmit} sx={{ '& .MuiTextField-root': { mb: 3 } }}>
-              <Grid container spacing={3}>
-                <Grid size={6}>
-                  <TextField 
-                    fullWidth 
-                    label="Parent/Guardian Name" 
-                    required 
-                    variant="outlined"
-                    value={formData.parentName}
-                    onChange={handleInputChange('parentName')}
-                    error={!!formErrors.parentName}
-                    helperText={formErrors.parentName}
-                  />
-                </Grid>
-                <Grid size={6}>
-                  <TextField 
-                    fullWidth 
-                    label="Phone Number" 
-                    required 
-                    variant="outlined"
-                    value={formData.phone}
-                    onChange={handleInputChange('phone')}
-                    error={!!formErrors.phone}
-                    helperText={formErrors.phone}
-                  />
-                </Grid>
-                <Grid size={12}>
-                  <TextField 
-                    fullWidth 
-                    label="Email Address" 
-                    required 
-                    type="email" 
-                    variant="outlined"
-                    value={formData.email}
-                    onChange={handleInputChange('email')}
-                    error={!!formErrors.email}
-                    helperText={formErrors.email}
-                  />
-                </Grid>
-                <Grid size={6}>
-                  <TextField 
-                    fullWidth 
-                    label="Child's Name" 
-                    variant="outlined"
-                    value={formData.childName}
-                    onChange={handleInputChange('childName')}
-                  />
-                </Grid>
-                <Grid size={6}>
-                  <TextField 
-                    fullWidth 
-                    label="Child's Age" 
-                    variant="outlined"
-                    value={formData.childAge}
-                    onChange={handleInputChange('childAge')}
-                  />
-                </Grid>
-                <Grid size={12}>
-                  <FormControl 
-                    fullWidth 
-                    variant="outlined"
-                  >
-                    <InputLabel>How did you hear about us?</InputLabel>
-                    <Select 
-                      label="How did you hear about us?"
-                      value={formData.hearAbout}
-                      onChange={handleInputChange('hearAbout')}
-                    >
-                      <MenuItem value="google">Google Search</MenuItem>
-                      <MenuItem value="referral">Doctor/Therapist Referral</MenuItem>
-                      <MenuItem value="friend">Friend/Family</MenuItem>
-                      <MenuItem value="social">Social Media</MenuItem>
-                      <MenuItem value="other">Other</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid size={12}>
-                  <TextField
-                    fullWidth 
-                    label="Tell us about your needs and goals" 
-                    multiline 
-                    rows={4} 
-                    variant="outlined"
-                    placeholder="Share any specific concerns, goals, or questions you have. This helps us prepare for our conversation and provide the most relevant guidance."
-                    value={formData.message}
-                    onChange={handleInputChange('message')}
-                  />
-                </Grid>
+        <Card sx={{ p: 4 }}>
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={3}>
+              <Grid size={12}>
+                <TextField
+                  fullWidth
+                  label="Parent/Guardian Name"
+                  name="parentName"
+                  value={formData.parentName}
+                  onChange={handleInputChange('parentName')}
+                  error={Boolean(formErrors.parentName)}
+                  helperText={formErrors.parentName}
+                  required
+                />
               </Grid>
-
-              <Box sx={{ mt: 4 }}>
-                <Button 
-                  type="submit"
-                  variant="contained" 
-                  color="primary" 
-                  size="large"
-                  startIcon={<Send />}
-                  fullWidth={{ xs: true, sm: false }}
-                  disabled={isSubmitting}
-                  sx={{ 
-                    px: 4,
-                    py: 2,
-                    fontSize: '1.1rem',
-                    fontWeight: 600
-                  }}
-                >
-                  {isSubmitting ? 'Sending...' : 'Request Free Consultation'}
-                </Button>
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-                  We'll contact you within 24 hours to schedule your consultation
-                </Typography>
-              </Box>
-            </Box>
-          </Card>
-        </Grid>
-
-        <Grid size={12}>
-          <Stack spacing={4}>
-            <Paper sx={{ p: { xs: 3, md: 4 } }}>
-              <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, mb: 3 }}>
-                Contact Information
-              </Typography>
-              <Stack spacing={3}>
-                {contactMethods.map((method, index) => (
-                  <Box key={index} sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                    <Avatar
-                      sx={{
-                        bgcolor: `${method.color}.main`,
-                        width: 48,
-                        height: 48,
-                        flexShrink: 0,
-                      }}
-                    >
-                      {method.icon}
-                    </Avatar>
-                    <Box sx={{ minWidth: 0, flex: 1 }}>
-                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5 }}>
-                        {method.title}
-                      </Typography>
-                      <Typography variant="body1" sx={{ fontWeight: 500, mb: 0.5, wordBreak: 'break-word' }}>
-                        {method.value}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {method.description}
-                      </Typography>
-                    </Box>
-                  </Box>
-                ))}
-              </Stack>
-            </Paper>
-
-            <Card
-              sx={{
-                p: { xs: 3, md: 4 },
-                background: 'linear-gradient(135deg, rgba(107, 115, 255, 0.05) 0%, rgba(255, 107, 157, 0.05) 100%)',
-                border: '1px solid rgba(107, 115, 255, 0.1)'
-              }}
-            >
-              <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, mb: 3 }}>
-                What You Get
-              </Typography>
-              <List>
-                {benefits.map((benefit, index) => (
-                  <ListItem key={index} sx={{ px: 0, py: 1 }}>
-                    <ListItemIcon>
-                      <CheckCircle color="success" />
-                    </ListItemIcon>
-                    <ListItemText 
-                      primary={benefit}
-                      primaryTypographyProps={{
-                        variant: 'body1',
-                        fontWeight: 500
-                      }}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            </Card>
-
-            <Paper sx={{ p: 4 }}>
-              <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, mb: 3 }}>
-                Why Families Choose Us
-              </Typography>
-              <Stack spacing={3}>
-                {reasons.map((reason, index) => (
-                  <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Avatar
-                      sx={{
-                        bgcolor: 'primary.light',
-                        color: 'primary.main',
-                        width: 40,
-                        height: 40,
-                      }}
-                    >
-                      {reason.icon}
-                    </Avatar>
-                    <Box>
-                      <Typography variant="body1" sx={{ fontWeight: 600, mb: 0.5 }}>
-                        {reason.title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {reason.description}
-                      </Typography>
-                    </Box>
-                  </Box>
-                ))}
-              </Stack>
-            </Paper>
-          </Stack>
-        </Grid>
-      </Grid>
+              <Grid size={6}>
+                <TextField
+                  fullWidth
+                  label="Phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange('phone')}
+                  error={Boolean(formErrors.phone)}
+                  helperText={formErrors.phone}
+                  required
+                />
+              </Grid>
+              <Grid size={6}>
+                <TextField
+                  fullWidth
+                  label="Email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleInputChange('email')}
+                  error={Boolean(formErrors.email)}
+                  helperText={formErrors.email}
+                  required
+                />
+              </Grid>
+              <Grid size={6}>
+                <TextField
+                  fullWidth
+                  label="Child's Name"
+                  name="childName"
+                  value={formData.childName}
+                  onChange={handleInputChange('childName')}
+                />
+              </Grid>
+              <Grid size={6}>
+                <TextField
+                  fullWidth
+                  label="Child's Age"
+                  name="childAge"
+                  value={formData.childAge}
+                  onChange={handleInputChange('childAge')}
+                />
+              </Grid>
+              <Grid size={12}>
+                <FormControl fullWidth>
+                  <InputLabel>How did you hear about us?</InputLabel>
+                  <Select
+                    value={formData.hearAbout}
+                    onChange={handleInputChange('hearAbout')}
+                    label="How did you hear about us?"
+                  >
+                    <MenuItem value="Google">Google</MenuItem>
+                    <MenuItem value="Facebook">Facebook</MenuItem>
+                    <MenuItem value="Friend">Friend/Family</MenuItem>
+                    <MenuItem value="Professional">Healthcare Professional</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid size={12}>
+                <TextField
+                  fullWidth
+                  label="Message"
+                  name="message"
+                  multiline
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleInputChange('message')}
+                />
+              </Grid>
+              <Grid size={12} sx={{ textAlign: 'center', mt: 2 }}>
+                <Stack direction="row" spacing={2} justifyContent="center">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    size="large"
+                    disabled={isSubmitting}
+                    sx={{
+                      px: 4,
+                      py: 1.5,
+                      fontSize: '1.1rem'
+                    }}
+                  >
+                    Send Message
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
+          </form>
+        </Card>
+      </Container>
 
       <Snackbar
         open={showSuccess}
@@ -450,12 +281,12 @@ function Contact() {
         onClose={() => setShowSuccess(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert 
-          onClose={() => setShowSuccess(false)} 
-          severity="success" 
+        <Alert
+          onClose={() => setShowSuccess(false)}
+          severity="success"
           sx={{ width: '100%' }}
         >
-          Thank you! Your consultation request has been submitted successfully. We'll contact you within 24 hours.
+          Your message has been sent successfully!
         </Alert>
       </Snackbar>
 
@@ -465,16 +296,16 @@ function Contact() {
         onClose={() => setShowError(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert 
-          onClose={() => setShowError(false)} 
-          severity="error" 
+        <Alert
+          onClose={() => setShowError(false)}
+          severity="error"
           sx={{ width: '100%' }}
         >
-          Sorry, there was an error sending your message. Please try again or contact us directly.
+          {errorMessage || 'There was an error sending your message. Please try again.'}
         </Alert>
       </Snackbar>
-    </Container>
+    </Box>
   );
-};
+}
 
 export default Contact;
