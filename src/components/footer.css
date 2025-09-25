@@ -1,0 +1,9 @@
+.footer-link {
+  color: rgba(0, 0, 0, 0.6) !important;  /* This matches MUI's text.secondary color */
+}
+
+.footer-link:hover {
+  color: #1976d2 !important;  /* This matches MUI's primary.main color */
+  transform: translateX(8px);
+  text-shadow: 0 0 0.5px currentColor;
+}

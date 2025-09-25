@@ -66,9 +66,7 @@ const Navbar = () => {
       <MenuItem component={Link} to="/about" onClick={handleAboutMenuClose}>
         About Us
       </MenuItem>
-      <MenuItem component={Link} to="/what-is-autism" onClick={handleAboutMenuClose}>
-        What is Autism?
-      </MenuItem>
+
       <MenuItem component={Link} to="/our-approach" onClick={handleAboutMenuClose}>
         Our Approach
       </MenuItem>
@@ -89,28 +87,7 @@ const Navbar = () => {
         </IconButton>
       </Box>
       <List sx={{ pt: 2 }}>
-        <ListItem disablePadding>
-          <Button
-            component={Link}
-            to="/what-is-autism"
-            fullWidth
-            sx={{ 
-              justifyContent: 'center',
-              py: 2,
-              mx: 2,
-              mb: 1,
-              fontSize: '1.1rem',
-              color: 'text.primary',
-              borderRadius: 2,
-              '&:hover': {
-                bgcolor: 'primary.main',
-                color: 'white',
-              }
-            }}
-          >
-            What is Autism?
-          </Button>
-        </ListItem>
+
         <ListItem disablePadding>
           <Button
             component={Link}
@@ -213,7 +190,7 @@ const Navbar = () => {
               borderRadius: 2
             }}
           >
-            Book Session
+            Send us a message
           </Button>
         </ListItem>
       </List>
@@ -235,7 +212,7 @@ const Navbar = () => {
         <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, sm: 4 } }}>
           <Box 
             component={Link} 
-            to="/home" 
+            to="/" 
             className="logo-link"
             sx={{ 
               textDecoration: 'none', 
@@ -336,7 +313,7 @@ const Navbar = () => {
                   fontWeight: 600
                 }}
               >
-                Book Session
+                Send us a message
               </Button>
             </Box>
           )}
