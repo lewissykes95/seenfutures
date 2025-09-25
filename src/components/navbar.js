@@ -235,7 +235,7 @@ const Navbar = () => {
         <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, sm: 4 } }}>
           <Box 
             component={Link} 
-            to="/home" 
+            to="/" 
             className="logo-link"
             sx={{ 
               textDecoration: 'none', 
